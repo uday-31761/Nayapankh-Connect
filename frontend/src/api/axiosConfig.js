@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080', // Port 8080 where our Spring Boot application runs
+  baseURL: 'https://nayapankh-connect.onrender.com', // Port 8080 where our Spring Boot application runs
 });
 
 // Intercept requests to inject JWT bearer token
