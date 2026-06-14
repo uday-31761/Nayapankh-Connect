@@ -99,27 +99,27 @@ Supabase PostgreSQL Database
 
 ### 🔑 Login & Registration
 
-![Login Page]<img width="1919" height="879" alt="image" src="https://github.com/user-attachments/assets/d011dbb1-74a0-46f6-a782-6647cc77c631" />
+<img width="1919" height="879" alt="image" src="https://github.com/user-attachments/assets/d011dbb1-74a0-46f6-a782-6647cc77c631" />
 
 ---
 
 ### 🛡️ Admin Dashboard
 
-![Admin Dashboard]<img width="1920" height="918" alt="{8734A93D-549A-4108-AB3A-1B505F6E3374}" src="https://github.com/user-attachments/assets/f3a48f01-8220-4e07-9fba-09b2dbfe9c95" />
+<img width="1920" height="918" alt="{8734A93D-549A-4108-AB3A-1B505F6E3374}" src="https://github.com/user-attachments/assets/f3a48f01-8220-4e07-9fba-09b2dbfe9c95" />
 
 
 ---
 
 ### 👤 Volunteer Dashboard
 
-![Volunteer Dashboard]<img width="1920" height="900" alt="image" src="https://github.com/user-attachments/assets/b2e7a2cf-417f-42a7-b0ae-cda4e31a1cfb" />
+<img width="1920" height="900" alt="image" src="https://github.com/user-attachments/assets/b2e7a2cf-417f-42a7-b0ae-cda4e31a1cfb" />
 
 
 ---
 
 ### 📊 Analytics Dashboard
 
-![Analytics Dashboard]<img width="1920" height="927" alt="image" src="https://github.com/user-attachments/assets/1dbf81c0-7e7b-4b4e-a379-24e6c61f7469" />
+<img width="1920" height="927" alt="image" src="https://github.com/user-attachments/assets/1dbf81c0-7e7b-4b4e-a379-24e6c61f7469" />
 
 
 ---
