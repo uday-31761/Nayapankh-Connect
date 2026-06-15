@@ -456,10 +456,10 @@ export default function LandingPage() {
               </h4>
 
               <ul className="space-y-2 text-slate-400 text-sm">
-                <li>About Us</li>
-                <li>Programs</li>
-                <li>Volunteer Portal</li>
-                <li>Contact</li>
+                <li><a href="https://nayapankh-connect.vercel.app/#about" className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="https://nayapankh-connect.vercel.app/#programs" className="hover:text-white transition-colors">Programs</a></li>
+                <li><a href="https://nayapankh-connect.vercel.app" className="hover:text-white transition-colors">Volunteer Portal</a></li>
+                <li><a href="mailto:vudaykiranv761@gmail.com" className="hover:text-white transition-colors">Contact</a></li>
               </ul>
             </div>
 
