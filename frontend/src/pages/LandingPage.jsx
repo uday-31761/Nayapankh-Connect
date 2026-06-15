@@ -459,7 +459,7 @@ export default function LandingPage() {
                 <li><a href="https://nayapankh-connect.vercel.app/#about" className="hover:text-white transition-colors">About Us</a></li>
                 <li><a href="https://nayapankh-connect.vercel.app/#programs" className="hover:text-white transition-colors">Programs</a></li>
                 <li><a href="https://nayapankh-connect.vercel.app" className="hover:text-white transition-colors">Volunteer Portal</a></li>
-                <li><a href="mailto:vudaykiranv761@gmail.com" className="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="mailto:vudaykiranv761@gmail.com" className="hover:text-white transition-colors">Contact - vudaykiranv761@gmail.com</a></li>
               </ul>
             </div>
 
