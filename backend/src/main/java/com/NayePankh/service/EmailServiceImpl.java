@@ -12,7 +12,7 @@ public class EmailServiceImpl implements EmailService {
     @Autowired(required = false)
     private JavaMailSender mailSender;
 
-    @Value("${spring.mail.username:vudaykiranv761@gmail.com}")
+    @Value("${spring.mail.username:manabatchey9@gmail.com}")
     private String fromEmail;
 
     @Override
@@ -22,6 +22,8 @@ public class EmailServiceImpl implements EmailService {
                 "Congratulations!\n" +
                 "Your volunteer application has been approved.\n\n" +
                 "You can now login to the NayePankh Connect Portal.\n\n" +
+                "Link : "+
+                "https://nayapankh-connect.vercel.app \n\n"+
                 "Best Regards,\n" +
                 "NayePankh Foundation";
 
@@ -35,6 +37,8 @@ public class EmailServiceImpl implements EmailService {
                 "Unfortunately your application was not approved.\n\n" +
                 "Reason:\n" + reason + "\n\n" +
                 "You may submit a new application through our website with the correct details.\n\n" +
+                "Link : "+
+                "https://nayapankh-connect.vercel.app \n\n"+
                 "Best Regards,\n" +
                 "NayePankh Foundation";
 
