@@ -694,7 +694,7 @@ export default function AuthPage() {
                   </div>
 
                   <div>
-                    <label className="block text-slate-350 text-xs font-semibold mb-2">Availability (Days)</label>
+                    <label className="block text-slate-350 text-xs font-semibold mb-2">Availability (in Days)</label>
                     <input
                       type="text"
                       placeholder="Weekends, Mon-Wed-Fri, 2 hours daily"
