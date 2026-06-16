@@ -3,8 +3,21 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import {
-  User, Mail, Phone, Lock, Calendar, MapPin,
-  BookOpen, Sparkles, HelpCircle, ArrowRight, Check, KeyRound
+  User,
+  Mail,
+  Phone,
+  Lock,
+  Calendar,
+  MapPin,
+  BookOpen,
+  Sparkles,
+  HelpCircle,
+  ArrowRight,
+  Check,
+  KeyRound,
+  Eye,
+  EyeOff,
+  X
 } from 'lucide-react';
 import api from '../api/axiosConfig';
 import Captcha from '../components/Captcha';
@@ -17,6 +30,8 @@ export default function AuthPage() {
   const [activeTab, setActiveTab] = useState(tabParam);
   const [captchaCode, setCaptchaCode] = useState('');
   const [captchaInput, setCaptchaInput] = useState('');
+
+
 
   // Login State
   const [loginForm, setLoginForm] = useState({ username: '', password: '' });
@@ -40,6 +55,9 @@ export default function AuthPage() {
     availabilityDays: '',
   });
   const [isRegistering, setIsRegistering] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
 
   // Forgot Password State
   const [showForgotModal, setShowForgotModal] = useState(false);
@@ -99,6 +117,43 @@ export default function AuthPage() {
     }
   };
 
+  const passwordChecks = {
+    length: registerForm.password.length >= 8,
+    uppercase: /[A-Z]/.test(registerForm.password),
+    lowercase: /[a-z]/.test(registerForm.password),
+    number: /[0-9]/.test(registerForm.password),
+    special: /[^A-Za-z0-9]/.test(registerForm.password),
+  };
+
+  const passwordsMatch =
+    registerForm.confirmPassword.length > 0 &&
+    registerForm.password === registerForm.confirmPassword;
+
+  const calculatePasswordStrength = (password) => {
+    let score = 0;
+
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[a-z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    setPasswordStrength(score);
+  };
+
+  const getStrengthLabel = () => {
+    if (passwordStrength <= 2) return "Weak";
+    if (passwordStrength <= 4) return "Average";
+    return "Strong";
+  };
+
+  const getStrengthColor = () => {
+    if (passwordStrength <= 2) return "bg-red-500";
+    if (passwordStrength <= 4) return "bg-yellow-500";
+    return "bg-green-500";
+  };
+
+
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
@@ -119,7 +174,20 @@ export default function AuthPage() {
       toast.error('Captcha code does not match.');
       return;
     }
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
+    if (!passwordRegex.test(registerForm.password)) {
+      toast.error(
+        "Password must contain uppercase, lowercase, number, special character and minimum 8 characters."
+      );
+      return;
+    }
+
+    if (registerForm.password !== registerForm.confirmPassword) {
+      toast.error("Passwords do not match.");
+      return;
+    }
     setIsRegistering(true);
     try {
       await api.post('/api/auth/register', registerForm);
@@ -228,8 +296,8 @@ export default function AuthPage() {
           <button
             onClick={() => { setActiveTab('login'); setCaptchaInput(''); }}
             className={`flex-1 py-2 text-center text-sm font-semibold rounded-xl transition-all duration-300 ${activeTab === 'login'
-                ? 'bg-gradient-to-r from-ngo-700 to-emerald-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+              ? 'bg-gradient-to-r from-ngo-700 to-emerald-600 text-white shadow-md'
+              : 'text-slate-400 hover:text-slate-200'
               }`}
           >
             Sign In
@@ -237,8 +305,8 @@ export default function AuthPage() {
           <button
             onClick={() => { setActiveTab('register'); setCaptchaInput(''); }}
             className={`flex-1 py-2 text-center text-sm font-semibold rounded-xl transition-all duration-300 ${activeTab === 'register'
-                ? 'bg-gradient-to-r from-ngo-700 to-emerald-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+              ? 'bg-gradient-to-r from-ngo-700 to-emerald-600 text-white shadow-md'
+              : 'text-slate-400 hover:text-slate-200'
               }`}
           >
             Register
@@ -433,26 +501,147 @@ export default function AuthPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold mb-2">Password *</label>
-                      <input
-                        type="password"
-                        required
-                        placeholder="••••••••"
-                        value={registerForm.password}
-                        onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
-                        className="block w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-ngo-600 text-sm"
-                      />
+                      <label className="block text-slate-350 text-xs font-semibold mb-2">
+                        Password *
+                      </label>
+
+                      <div className="relative">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          required
+                          placeholder="Create Password"
+                          value={registerForm.password}
+                          onChange={(e) => {
+                            setRegisterForm({
+                              ...registerForm,
+                              password: e.target.value
+                            });
+                            calculatePasswordStrength(e.target.value);
+                          }}
+                          className="block w-full px-4 py-2.5 pr-12 bg-slate-900 border border-slate-800 rounded-xl text-white"
+                        />
+
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-3 text-slate-400"
+                        >
+                          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                      </div>
+
+                      {/* Strength Meter */}
+
+                      <div className="mt-3">
+                        <div className="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full ${getStrengthColor()} transition-all duration-300`}
+                            style={{
+                              width: `${(passwordStrength / 5) * 100}%`
+                            }}
+                          />
+                        </div>
+
+                        <p className="text-xs mt-1">
+                          Strength :
+                          <span
+                            className={`ml-2 font-bold ${passwordStrength <= 2
+                              ? "text-red-400"
+                              : passwordStrength <= 4
+                                ? "text-yellow-400"
+                                : "text-green-400"
+                              }`}
+                          >
+                            {getStrengthLabel()}
+                          </span>
+                        </p>
+                      </div>
+
+                      {/* Requirements */}
+
+                      <div className="mt-4 space-y-2 text-xs">
+
+                        <div className={`flex items-center gap-2 ${passwordChecks.length ? "text-green-400" : "text-slate-400"}`}>
+                          {passwordChecks.length ? <Check size={14} /> : <X size={14} />}
+                          Minimum 8 characters
+                        </div>
+
+                        <div className={`flex items-center gap-2 ${passwordChecks.uppercase ? "text-green-400" : "text-slate-400"}`}>
+                          {passwordChecks.uppercase ? <Check size={14} /> : <X size={14} />}
+                          One uppercase letter
+                        </div>
+
+                        <div className={`flex items-center gap-2 ${passwordChecks.lowercase ? "text-green-400" : "text-slate-400"}`}>
+                          {passwordChecks.lowercase ? <Check size={14} /> : <X size={14} />}
+                          One lowercase letter
+                        </div>
+
+                        <div className={`flex items-center gap-2 ${passwordChecks.number ? "text-green-400" : "text-slate-400"}`}>
+                          {passwordChecks.number ? <Check size={14} /> : <X size={14} />}
+                          One number
+                        </div>
+
+                        <div className={`flex items-center gap-2 ${passwordChecks.special ? "text-green-400" : "text-slate-400"}`}>
+                          {passwordChecks.special ? <Check size={14} /> : <X size={14} />}
+                          One special character
+                        </div>
+
+                      </div>
+
                     </div>
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold mb-2">Confirm Password *</label>
-                      <input
-                        type="password"
-                        required
-                        placeholder="••••••••"
-                        value={registerForm.confirmPassword}
-                        onChange={(e) => setRegisterForm({ ...registerForm, confirmPassword: e.target.value })}
-                        className="block w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-ngo-600 text-sm"
-                      />
+                      <label className="block text-slate-350 text-xs font-semibold mb-2">
+                        Confirm Password *
+                      </label>
+
+                      <div className="relative">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          required
+                          placeholder="Confirm Password"
+                          value={registerForm.confirmPassword}
+                          onChange={(e) =>
+                            setRegisterForm({
+                              ...registerForm,
+                              confirmPassword: e.target.value
+                            })
+                          }
+                          className="block w-full px-4 py-2.5 pr-12 bg-slate-900 border border-slate-800 rounded-xl text-white"
+                        />
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                          className="absolute right-3 top-3 text-slate-400"
+                        >
+                          {showConfirmPassword ? (
+                            <EyeOff size={18} />
+                          ) : (
+                            <Eye size={18} />
+                          )}
+                        </button>
+                      </div>
+
+                      {registerForm.confirmPassword.length > 0 && (
+                        <div
+                          className={`flex items-center gap-2 mt-2 text-xs ${passwordsMatch
+                            ? "text-green-400"
+                            : "text-red-400"
+                            }`}
+                        >
+                          {passwordsMatch ? (
+                            <Check size={14} />
+                          ) : (
+                            <X size={14} />
+                          )}
+
+                          {passwordsMatch
+                            ? "Passwords Match"
+                            : "Passwords Do Not Match"}
+                        </div>
+                      )}
                     </div>
                   </div>
 
