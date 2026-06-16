@@ -660,10 +660,10 @@ export default function AuthPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold mb-2">Course *</label>
+                      <label className="block text-slate-350 text-xs font-semibold mb-2">Course and Branch*</label>
                       <input
                         type="text"
-                        placeholder="B.Tech, B.Sc, B.A"
+                        placeholder="B.Tech - CSE / B.Sc - PCM"
                         value={registerForm.course}
                         onChange={(e) => setRegisterForm({ ...registerForm, course: e.target.value })}
                         className="block w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-ngo-600 text-sm"
